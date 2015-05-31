@@ -1,18 +1,40 @@
 package com.diqisuperking.diqiking;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 
-import com.parse.Parse;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class MainActivity extends Activity {
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
+
+public class MainActivity extends ActionBarActivity {
+
+    private LocationManager locationManager;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,9 +42,42 @@ public class MainActivity extends Activity {
 //        ParseObject testObject = new ParseObject("TestObject");
 //        testObject.put("foo", "bar");
 //        testObject.saveInBackground();
+        
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null) {
+            Toast.makeText(MainActivity.this,"GeoLocation is not available",Toast.LENGTH_LONG).show();
+        }else{
+            
+        }
+
+        final Button testButton = (Button)findViewById(R.id.tbutton);
+        testButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.e("REQUEST:","Start");
+                // TODO Auto-generated method stub
+                HashMap<String, Object> params = new HashMap<String, Object>();
+                params.put("username", "diqiking");
+                params.put("password", "dqk");
+                ParseCloud.callFunctionInBackground("diqi_get_token", params, new FunctionCallback<Map<String,Object>>() {
+                    @Override
+                    public void done(Map<String,Object> o, com.parse.ParseException e) {
+                        Log.e("REQUEST:","Done");
+                        if (e == null) {
+                            Log.e("Result form cloud: ",(String)o.get("token"));
+
+                        } else {
+                            Log.d("App", "Error: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -40,6 +95,12 @@ public class MainActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.mapButton){
+            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(intent);
+            finish();
+        }else if(id == R.id.walletButton){
+
         }
 
         return super.onOptionsItemSelected(item);
