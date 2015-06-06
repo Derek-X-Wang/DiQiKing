@@ -19,6 +19,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseObject;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
-    private LocationManager locationManager;
+    private LocationTracker locationTracker;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +44,16 @@ public class MainActivity extends ActionBarActivity {
 //        testObject.put("foo", "bar");
 //        testObject.saveInBackground();
         
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location == null) {
-            Toast.makeText(MainActivity.this,"GeoLocation is not available",Toast.LENGTH_LONG).show();
-        }else{
+        locationTracker = new LocationTracker(this);
+        if(locationTracker.getLocationStatus()){
             
+        }else{
+            locationTracker.showSettingsAlert();
         }
+        
 
-        final Button testButton = (Button)findViewById(R.id.tbutton);
+        ButtonRectangle testButton = (ButtonRectangle)findViewById(R.id.tbutton);
+        //final Button testButton = (Button)findViewById(R.id.tbutton);
         testButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -76,6 +78,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+
 
     
     @Override
