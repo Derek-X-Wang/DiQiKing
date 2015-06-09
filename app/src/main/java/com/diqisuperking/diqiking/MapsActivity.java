@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -12,12 +13,19 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private double currentLat;
+    private double currentLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            currentLat = extras.getDouble("la");
+            currentLng = extras.getDouble("lo");
+        }
+            setUpMapIfNeeded();
     }
 
     @Override
@@ -62,6 +70,13 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        if(currentLat>=180||currentLat<=-180||currentLng>=180||currentLng<=-180){
+            currentLat = 0;
+            currentLat = 0;
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(currentLat, currentLng), 15));
+        mMap.getUiSettings().setZoomControlsEnabled(false);
     }
 }

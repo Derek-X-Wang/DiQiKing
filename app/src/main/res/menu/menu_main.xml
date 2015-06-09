@@ -3,12 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.diqisuperking.diqiking.MainActivity">
 
+    <item android:id="@+id/camButton"
+        android:title="Camera"
+        android:icon="@drawable/ic_local_see_white"
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/mapButton"
         android:title="Map"
+        android:icon="@drawable/ic_map_white"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/walletButton"
-        android:title="Wallet"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <!--<item android:id="@+id/walletButton"-->
+        <!--android:title="Wallet"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <!--<item android:id="@+id/action_settings" android:title="@string/action_settings"-->
+        <!--android:orderInCategory="100" app:showAsAction="never" />-->
 </menu>

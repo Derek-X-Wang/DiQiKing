@@ -52,7 +52,7 @@ public class LocationTracker {
 
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if(locationManager == null){
-            Log.d("LocationManager", "null");
+            Log.e("LocationManager", "null");
         }else{
             // Getting GPS status
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -64,20 +64,26 @@ public class LocationTracker {
                 // No network provider is enabled
                 location = null;
                 Toast.makeText(context, "Please open GPS or WiFi", Toast.LENGTH_LONG).show();
+                Log.e("GPS or Wifi Location", "null");
             }else{
                 this.canGetLocation = true;
                 // If GPS enabled, get latitude/longitude using GPS Services
                 if (isGPSEnabled) {
-                    Log.d("GPS Enabled", "GPS Enabled");
+                    Log.e("GPS Enabled", "GPS Enabled");
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     if (location == null) {
-                        Log.d("GPS Location", "null");
+                        Log.e("GPS Location", "null");
+                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        Log.e("GPS Location", "use network instead");
+                        if (location == null) {
+                            Log.e("GPS Location", "Network Location null");
+                        }
                     }
                 }else{
-                    Log.d("Network Enabled", "Network Enabled");
+                    Log.e("Network Enabled", "Network Enabled");
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if (location != null) {
-                        Log.d("Network Location", "null");
+                    if (location == null) {
+                        Log.e("Network Location", "null");
                     }
                 }
             }   
@@ -168,10 +174,10 @@ public class LocationTracker {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
         // Setting Dialog Title
-        alertDialog.setTitle("GPS is settings");
+        alertDialog.setTitle("Improve your location");
 
         // Setting Dialog Message
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+        alertDialog.setMessage("Location service is not enabled. Do you want to go to settings menu?");
 
         // On pressing the Settings button.
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
