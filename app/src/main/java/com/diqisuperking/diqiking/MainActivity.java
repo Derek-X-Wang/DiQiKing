@@ -29,13 +29,16 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -47,6 +50,8 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
+
+    private List<ParseObject> mContentItems;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +63,26 @@ public class MainActivity extends ActionBarActivity {
         
         locationTracker = new LocationTracker(this);
         if(locationTracker.getLocationStatus()){
-            
+
         }else{
             locationTracker.showSettingsAlert();
         }
+//        Log.e("onCreate","here");
+//        ParseGeoPoint point = new ParseGeoPoint(locationTracker.getLatitude(), locationTracker.getLongitude());
+//        Log.e("onCreate","here2 "+"la "+locationTracker.getLatitude()+" lo "+locationTracker.getLongitude());
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Stores");
+//        query.whereNear("location", point);
+//        //query.setLimit(10);
+//        try {
+//            Log.e("onCreate","here3");
+//            mContentItems = query.find();
+//        }catch (Exception e){
+//            Log.e("onCreate","here4");
+//            e.printStackTrace();
+//        }
+//        if(mContentItems==null){
+//            Log.e("onCreate","here5555");
+//        }
 
        setTitle("");
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
@@ -90,7 +111,22 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public Fragment getItem(int position) {
-                return RecyclerViewFragment.newInstance();
+                Fragment fragment = RecyclerViewFragment.newInstance();
+                switch (position) {
+                    case 0:
+                        fragment = StoreFragment.newInstance();
+                        Bundle bundle = new Bundle();
+                        bundle.putDouble("la",locationTracker.getLatitude());
+                        bundle.putDouble("lo",locationTracker.getLongitude());
+                        fragment.setArguments(bundle);
+                        break;
+                    case 1:
+                        fragment = WalletFragment.newInstance();
+                        break;
+                    case 2:
+                        break;
+                }
+                return fragment;
             }
 
             @Override
@@ -111,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
                         break;
                     case 1:
                         imageUrl = "https://fs01.androidpit.info/a/63/0e/android-l-wallpapers-630ea6-h900.jpg";
-                        color = getResources().getColor(R.color.purple);
+                        color = getResources().getColor(R.color.green);
                         break;
                     case 2:
                         imageUrl = "http://www.droid-life.com/wp-content/uploads/2014/10/lollipop-wallpapers10.jpg";

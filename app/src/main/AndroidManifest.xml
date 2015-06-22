@@ -14,11 +14,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".DiQiKingApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        android:name=".DiQiKingApplication">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -38,6 +38,12 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" >
+        </activity>
+        <activity
+            android:name=".WalletExchange"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_wallet_exchange"
+            android:theme="@style/FullscreenTheme" >
         </activity>
     </application>
 

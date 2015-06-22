@@ -9,12 +9,18 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private double currentLat;
     private double currentLng;
+    private List<ParseObject> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,15 @@ public class MapsActivity extends FragmentActivity {
         if (extras != null) {
             currentLat = extras.getDouble("la");
             currentLng = extras.getDouble("lo");
+            ParseGeoPoint point = new ParseGeoPoint(currentLat, currentLng);
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Stores");
+            query.whereNear("location", point);
+            query.setLimit(10);
+            try {
+                list = query.find();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
             setUpMapIfNeeded();
     }
