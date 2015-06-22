@@ -42,7 +42,7 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        for (int i = 0; i < 100; ++i)
+        //for (int i = 0; i < 100; ++i)
             mContentItems.add(new Object());
 
         if(mAdapter == null) {

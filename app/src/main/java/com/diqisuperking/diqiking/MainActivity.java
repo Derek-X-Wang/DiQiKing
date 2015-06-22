@@ -112,8 +112,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public Fragment getItem(int position) {
                 Fragment fragment = RecyclerViewFragment.newInstance();
+                Log.e("getItem","here 1");
                 switch (position) {
                     case 0:
+                        Log.e("getItem","here 2");
                         fragment = StoreFragment.newInstance();
                         Bundle bundle = new Bundle();
                         bundle.putDouble("la",locationTracker.getLatitude());
@@ -121,11 +123,13 @@ public class MainActivity extends ActionBarActivity {
                         fragment.setArguments(bundle);
                         break;
                     case 1:
+                        Log.e("getItem","here 3");
                         fragment = WalletFragment.newInstance();
                         break;
                     case 2:
                         break;
                 }
+                Log.e("getItem","here 4");
                 return fragment;
             }
 

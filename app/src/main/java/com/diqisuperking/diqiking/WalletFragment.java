@@ -29,8 +29,8 @@ public class WalletFragment extends Fragment {
 
     private List<String> mContentItems;
 
-    public static StoreFragment newInstance() {
-        return new StoreFragment();
+    public static WalletFragment newInstance() {
+        return new WalletFragment();
     }
 
     @Override

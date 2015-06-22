@@ -50,13 +50,13 @@ public class WalletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (viewType) {
             case TYPE_HEADER: {
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_store_big, parent, false);
+                        .inflate(R.layout.list_item_wallet_big, parent, false);
                 return new RecyclerView.ViewHolder(view) {
                 };
             }
             case TYPE_CELL: {
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_store_small, parent, false);
+                        .inflate(R.layout.list_item_wallet_small, parent, false);
                 return new ViewHolder(view) {
                 };
             }
@@ -97,7 +97,7 @@ public class WalletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(v.getContext(), MapsActivity.class);
+            Intent intent = new Intent(v.getContext(), WalletExchange.class);
             v.getContext().startActivity(intent);
         }
 

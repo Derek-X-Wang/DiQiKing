@@ -33,13 +33,14 @@ public class MapsActivity extends FragmentActivity {
             ParseGeoPoint point = new ParseGeoPoint(currentLat, currentLng);
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Stores");
             query.whereNear("location", point);
-            query.setLimit(10);
+            //query.setLimit(10);
             try {
                 list = query.find();
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
+
             setUpMapIfNeeded();
     }
 
@@ -93,5 +94,9 @@ public class MapsActivity extends FragmentActivity {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(currentLat, currentLng), 15));
         mMap.getUiSettings().setZoomControlsEnabled(false);
+        for(ParseObject p : list){
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(p.getParseGeoPoint("location").getLatitude(), p.getParseGeoPoint("location").getLongitude())));
+        }
     }
 }

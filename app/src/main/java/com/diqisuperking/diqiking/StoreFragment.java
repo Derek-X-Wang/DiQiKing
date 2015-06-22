@@ -73,5 +73,6 @@ public class StoreFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        Log.e("onViewCreated","here 3");
     }
 }
